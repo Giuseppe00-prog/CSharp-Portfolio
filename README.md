@@ -24,11 +24,16 @@ Qui raccolgo esercizi, applicazioni e progetti realizzati per approfondire le mi
 ---
 
 ## 📂 Progetti
-| Nome progetto | Descrizione | Tecnologie principali |
-|----------------|-------------|------------------------|
-| In arrivo... | — | — |
 
-*(I progetti verranno aggiunti progressivamente.)*
+### 1️⃣ Biblioteca
+Gestione di una piccola biblioteca con possibilità di:
+- Aggiungere libri
+- Cercarli per autore o titolo
+- Visualizzare tutti i libri
+- Salvare e caricare da file JSON
+
+**Tecnologie:** .NET 8, C#  
+**Concetti usati:** classi, liste, LINQ, serializzazione JSON, gestione file
 
 ---
 
