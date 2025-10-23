@@ -15,7 +15,7 @@ namespace Ecommerce.Data.Models
         public string Indirizzo { get; set; }
 
         // Relazione: un cliente può avere più ordini
-        //public List<Ordine> Ordini { get; set; } = new List<Ordine>();
+        public List<Ordine> Ordini { get; set; } = new List<Ordine>();
 
         public Cliente() { }
         public Cliente(string nome, string cognome, string email, string indirizzo)

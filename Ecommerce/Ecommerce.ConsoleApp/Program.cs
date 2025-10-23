@@ -1,6 +1,7 @@
-﻿using System;
-using Ecommerce;
+﻿using Ecommerce;
 using Ecommerce.Data.Models;
+using Ecommerce.Services;
+using System;
 public class Program
 {
     static void Main(string[] args)
@@ -8,21 +9,15 @@ public class Program
         using(var context = new ECommerceContext())
         {
             DbSeeder.Seed(context);
-            Console.WriteLine("Database popolato con dati di esempio");
-            var prodotti =
-                context.Prodotti
-                .Select(p => new
-                {
-                    p.Nome,
-                    p.Descrizione,
-                    p.Prezzo,
-                    Categoria = p.Categoria.Nome,
-                }).ToList();
-            Console.WriteLine("Prodotti disponibili nel database:");
-            foreach (var p in prodotti)
-            {
-                Console.WriteLine($"- {p.Nome} ({p.Categoria}): {p.Prezzo}€ — {p.Descrizione}");
-            }
+            var customerService = new CustomerService(context);
+            var orderService = new OrderService(context);
+
+            customerService.AggiungiCliente("Mario", "Rossi", "mario@rossi.it", "Via rossi");
+            customerService.MostraClienti();
+
+            // Esempio di ordine: cliente 1 compra 2 prodotti (ID 1 e 2)
+            orderService.CreaOrdine(1, new Dictionary<int, int> { { 1, 2 }, { 2, 1 } });
+            orderService.MostraOrdini();
         }
     }
 }
