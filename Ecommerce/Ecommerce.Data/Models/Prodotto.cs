@@ -18,6 +18,7 @@ namespace Ecommerce.Data.Models
         public int CategoriaId { get; set; }
         public Categoria Categoria { get; set; }
 
+        public Prodotto() { }
         public Prodotto(string nome, string descrizione, decimal prezzo, int quantita, Categoria categoria)
         {
             Nome = nome;

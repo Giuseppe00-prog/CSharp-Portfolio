@@ -15,6 +15,7 @@ namespace Ecommerce.Data.Models
         // Relazione: una categoria può avere più prodotti
         public List<Prodotto> Prodotti { get; set; } = new List<Prodotto>();
 
+        public Categoria() { }
         public Categoria(string nome)
         {
             Nome = nome;
