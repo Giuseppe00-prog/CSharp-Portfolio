@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Repositories.Interfaces
 {
+    /// <summary>
+    /// Interfaccia generica che definisce le operazioni CRUD di base
+    /// per la gestione delle entità nel database.
+    /// </summary>
+    /// <typeparam name="T">Tipo dell'entità gestita dal repository.</typeparam>
     public interface IRepository<T> where T : class
     {
         Task<IEnumerable<T>> GetAllAsync();

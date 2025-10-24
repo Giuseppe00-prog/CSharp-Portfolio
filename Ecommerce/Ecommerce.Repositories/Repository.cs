@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Repositories
 {
+    /// <summary>
+    /// Repository generico per la gestione delle operazioni CRUD su qualsiasi entità.
+    /// </summary>
+    /// <typeparam name="T">Tipo dell'entità gestita dal repository.</typeparam>
     public class Repository<T> : IRepository<T> where T : class
     {
         protected readonly ECommerceContext _context;

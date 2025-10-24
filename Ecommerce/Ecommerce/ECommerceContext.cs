@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace Ecommerce
 {
+    /// <summary>
+    /// Contesto principale dell'applicazione e-commerce.
+    /// Gestisce le entità e le relazioni tramite Entity Framework Core.
+    /// </summary>
     public class ECommerceContext : DbContext
     {
         public DbSet<Prodotto> Prodotti {  get; set; }
