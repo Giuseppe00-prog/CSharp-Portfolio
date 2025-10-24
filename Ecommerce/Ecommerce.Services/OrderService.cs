@@ -1,4 +1,6 @@
 ﻿using Ecommerce.Data.Models;
+using Ecommerce.Repositories;
+using Ecommerce.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,63 +12,43 @@ namespace Ecommerce.Services
 {
     public class OrderService
     {
-        private readonly ECommerceContext _context;
+        private readonly OrdineRepository _ordineRepo;
+        private readonly IRepository<Prodotto> _prodottoRepo;
 
-        public OrderService(ECommerceContext context)
+        public OrderService(OrdineRepository ordineRepo, IRepository<Prodotto> prodottoRepo)
         {
-            _context = context;
+            _ordineRepo = ordineRepo;
+            _prodottoRepo = prodottoRepo;
         }
 
-        public void CreaOrdine(int clienteId, Dictionary<int, int> prodottiQuantita)
+        public async Task<Ordine> CreaOrdineAsync(Cliente cliente, Dictionary<int, int> prodottiQuantita)
         {
-            var cliente = _context.Clienti.Find(clienteId);
-            if (cliente == null)
-            {
-                Console.WriteLine("Cliente non trovato.");
-                return;
-            }
+            if (prodottiQuantita == null || prodottiQuantita.Count == 0)
+                throw new ArgumentException("Nessun prodotto selezionato");
 
-            var ordine = new Ordine { ClienteId = clienteId };
-            decimal totale = 0;
+            var ordine = new Ordine { ClienteId = cliente.Id, DataOrdine = DateTime.Now };
+            ordine.OrdineProdotti = new List<OrdineProdotto>();
 
             foreach (var kvp in prodottiQuantita)
             {
-                var prodotto = _context.Prodotti.Find(kvp.Key);
-                if (prodotto == null)
-                    continue;
+                var prodotto = await _prodottoRepo.GetByIdAsync(kvp.Key);
+                if (prodotto == null) continue;
 
-                var op = new OrdineProdotto
+                ordine.OrdineProdotti.Add(new OrdineProdotto
                 {
                     ProdottoId = prodotto.Id,
-                    Quantita = kvp.Value,
-                    PrezzoUnitario = prodotto.Prezzo
-                };
-
-                totale += prodotto.Prezzo * kvp.Value;
-                ordine.OrdineProdotti.Add(op);
+                    Quantita = kvp.Value
+                });
             }
 
-            ordine.Totale = totale;
-            _context.Ordini.Add(ordine);
-            _context.SaveChanges();
+            await _ordineRepo.AddAsync(ordine);
 
-            Console.WriteLine($"🛒 Ordine creato con successo per {cliente.Nome}, totale: {totale:C2}");
+            return ordine;
         }
 
-        public void MostraOrdini()
+        public async Task<IEnumerable<Ordine>> ListaOrdiniAsync()
         {
-            var ordini = _context.Ordini
-                .Include(o => o.Cliente)
-                .Include(o => o.OrdineProdotti)
-                .ThenInclude(op => op.Prodotto)
-                .ToList();
-
-            foreach (var o in ordini)
-            {
-                Console.WriteLine($"Ordine {o.Id} - Cliente: {o.Cliente.Nome} - Totale: {o.Totale:C2}");
-                foreach (var op in o.OrdineProdotti)
-                    Console.WriteLine($"   • {op.Prodotto.Nome} x{op.Quantita} ({op.PrezzoUnitario:C2})");
-            }
+            return await _ordineRepo.GetOrdiniConDettagliAsync();
         }
     }
 }

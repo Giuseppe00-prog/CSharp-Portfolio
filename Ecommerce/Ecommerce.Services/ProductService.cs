@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Data.Models;
+using Ecommerce.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,35 +8,21 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Services
 {
-    internal class ProductService
+    public class ProductService
     {
-        private readonly ECommerceContext _ecommerceContext;
+        private readonly ProdottoRepository _repository;
 
-        public ProductService(ECommerceContext ecommerceContext)
+        public ProductService(ProdottoRepository repository)
         {
-            _ecommerceContext = ecommerceContext;
+            _repository = repository;
         }
-        //Aggiunta di un nuovo prodotto
-        public void AddProduct(Prodotto p)
+        public async Task<IEnumerable<Prodotto>> ListaProdotti()
         {
-            if (p == null) return;
-
-            _ecommerceContext.Prodotti.Add(p);
-            _ecommerceContext.SaveChanges();
+            return await _repository.GetAllAsync();
         }
-        //Ritorna tutta la lista di prodotti
-        public List<Prodotto> GetAllProdotti()
+        public async Task AggiungiProdotto(Prodotto prodotto)
         {
-            return _ecommerceContext.Prodotti.ToList();
-        }
-        //Rimozione prodotto per id
-        public bool RemoveProductById(int id)
-        {
-            var prodotto = _ecommerceContext.Prodotti.FirstOrDefault(p => p.Id == id);
-            if (prodotto == null) return false;
-            _ecommerceContext.Prodotti.Remove(prodotto);
-            _ecommerceContext.SaveChanges();
-            return true;
+            await _repository.AddAsync(prodotto);
         }
     }
 }
