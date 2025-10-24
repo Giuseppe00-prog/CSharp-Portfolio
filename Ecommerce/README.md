@@ -1,4 +1,4 @@
-﻿# 🛍️ E-Commerce Console App (C# + Entity Framework)
+﻿# 🛍️ E-Commerce Console App
 
 Applicazione console che simula un semplice sistema e-commerce, completo di gestione prodotti, clienti e ordini.  
 Il progetto mostra come utilizzare **Entity Framework Core** per la gestione di un database relazionale, seguendo un approccio **Repository Pattern** e con codice asincrono (async/await).
