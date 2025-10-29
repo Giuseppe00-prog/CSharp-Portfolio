@@ -23,20 +23,6 @@ Qui raccolgo esercizi, applicazioni e progetti realizzati per approfondire le mi
 
 ---
 
-## 📂 Progetti
-
-### 1️⃣ Biblioteca
-Gestione di una piccola biblioteca con possibilità di:
-- Aggiungere libri
-- Cercarli per autore o titolo
-- Visualizzare tutti i libri
-- Salvare e caricare da file JSON
-
-**Tecnologie:** .NET 8, C#  
-**Concetti usati:** classi, liste, LINQ, serializzazione JSON, gestione file
-
----
-
 ## 🛠️ Strumenti utilizzati
 - Visual Studio / VS Code  
 - .NET SDK  
